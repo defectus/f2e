@@ -1,7 +1,0 @@
-{
-  "mongo": {
-    "url": "mongodb://prod:production@ds059471.mongolab.com:59471/heroku_app3537409",
-    "username": "",
-    "password": ""
-  }
-}

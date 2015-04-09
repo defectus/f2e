@@ -5,14 +5,15 @@ module.exports = function (grunt) {
 		bower: {
 			install: {
 				options: {
-					targetDir: 'static/requires',
-					layout: 'byComponent'
+					targetDir: './static/requires',
+					install: true,
+					cleanTargetDir: true
 				}
 			}
 		},
 		clean: {
 			build: {
-				src: 'static/'
+				src: ['dist/']
 			}
 		},
 		concat: {
@@ -25,7 +26,7 @@ module.exports = function (grunt) {
 			}
 		},
 		jshint: {
-			files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+			files: ['Gruntfile.js', 'dist/**/*.js', 'test/**/*.js'],
 			options: {
 				globals: {
 					jQuery: true
@@ -40,18 +41,17 @@ module.exports = function (grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: 'src',
+					cwd: 'client',
 					src: 'js/**/*.js',
-					dest: 'dist'
+					dest: 'static'
 				}]
 			}
 		},
 		copy: {
 			build: {
-				files: [{
-					src: 'bower_components/**/*.*',
-					dest: 'static/'
-				}]
+				files: [
+					{expand: true, src: ['bower_components/**'], dest: 'static/'}
+				]
 			}
 		},
 		mochaTest: {
@@ -63,6 +63,39 @@ module.exports = function (grunt) {
 					clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
 				},
 				src: ['test/**/*.js']
+			}
+		},
+		typescript: {
+			base: {
+				src: ['src/**/*.ts'],
+				dest: 'dist/',
+				options: {
+					module: 'commonjs', //or commonjs
+					target: 'es5', //or es3
+					sourceMap: false,
+					declaration: true,
+					watch: false,
+					basePath: 'src'
+				}
+			}
+		},
+		tsd: {
+			refresh: {
+				options: {
+					// execute a command
+					command: 'reinstall',
+
+					//optional: always get from HEAD
+					latest: true,
+
+					// specify config file
+					config: 'tsd.json',
+
+					// experimental: options to pass to tsd.API
+					opts: {
+						// props from tsd.Options
+					}
+				}
 			}
 		},
 		watch: {
@@ -77,11 +110,16 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-bower');
+	grunt.loadNpmTasks('grunt-bower-task');
 	grunt.loadNpmTasks('grunt-mocha-test');
+	grunt.loadNpmTasks('grunt-npm-install');
+	grunt.loadNpmTasks('grunt-typescript');
+	grunt.loadNpmTasks('grunt-tsd');
 	grunt.registerTask('build',
-			['clean:build', 'copy:build', 'mochaTest:test', 'jshint', 'uglify']);
+			['clean:build', 'copy:build', 'npm-install', 'bower:install', 'tsd', 'typescript',
+				'mochaTest:test', 'jshint', 'uglify']);
+	grunt.registerTask('lite-build', ['clean:build', 'typescript', 'jshint', 'uglify']);
 	grunt.registerTask('test',
 			['clean:build', 'copy:build', 'mochaTest:test']);
-	grunt.registerTask('default', ['jshint', 'uglify']);
+	grunt.registerTask('default', ['lite-build']);
 };

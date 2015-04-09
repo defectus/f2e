@@ -1,11 +1,14 @@
-var mongoose = require('mongoose'),
-		config = require('../../config.js');
-mongoose.connect('mongodb://localhost/test');
-
-var Cat = mongoose.model('Cat', {name: String});
-
-var kitty = new Cat({name: 'Zildjian'});
-kitty.save(function (err) {
-	if (err) // ...
-		console.log('meow');
+/// <reference path="../../typings/mongoose/mongoose.d.ts" />
+var mongoose = require("mongoose");
+exports.requestSchema = new mongoose.Schema({
+    username: String,
+    gender: String,
+    forename: String,
+    surname: String,
+    password: String,
+    email: String,
+    displayName: String,
+    lastLogin: Date
 });
+exports.Request = mongoose.model("Request", exports.requestSchema);
+//# sourceMappingURL=request.js.map
