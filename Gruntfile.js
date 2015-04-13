@@ -26,7 +26,7 @@ module.exports = function (grunt) {
 			}
 		},
 		jshint: {
-			files: ['Gruntfile.js', 'dist/**/*.js', 'test/**/*.js'],
+			files: ['Gruntfile.js', 'client/**/*.js', 'test/**/*.js'],
 			options: {
 				globals: {
 					jQuery: true
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
 				files: [{
 					expand: true,
 					cwd: 'client',
-					src: 'js/**/*.js',
+					src: 'client/**/*.js',
 					dest: 'static'
 				}]
 			}
@@ -51,6 +51,11 @@ module.exports = function (grunt) {
 			build: {
 				files: [
 					{expand: true, src: ['bower_components/**'], dest: 'static/'}
+				]
+			},
+			view: {
+				files: [
+					{expand: true, cwd: 'src', src: ['view/**'], dest: 'dist/'}
 				]
 			}
 		},
@@ -118,7 +123,8 @@ module.exports = function (grunt) {
 	grunt.registerTask('build',
 			['clean:build', 'copy:build', 'npm-install', 'bower:install', 'tsd', 'typescript',
 				'mochaTest:test', 'jshint', 'uglify']);
-	grunt.registerTask('lite-build', ['clean:build', 'typescript', 'jshint', 'uglify']);
+	grunt.registerTask('lite-build',
+			['clean:build', 'copy:view', 'typescript', 'jshint', 'uglify']);
 	grunt.registerTask('test',
 			['clean:build', 'copy:build', 'mochaTest:test']);
 	grunt.registerTask('default', ['lite-build']);
