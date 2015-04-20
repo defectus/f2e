@@ -5,6 +5,9 @@ import express = require('express');
 import request = require('./model/request');
 import user = require('./model/user');
 import config = require('./config');
+import bootstrap = require('./util/bootstrap')
+
+bootstrap().done();
 console.dir(config);
 var app = express();
 app.set('port', (process.env.PORT || 5000));

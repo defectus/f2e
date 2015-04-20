@@ -36,6 +36,7 @@
   "dependencies": {
     "express": "^4.12.3",
     "jade": "^1.9.2",
-    "mongoose": "^4.0.1"
+    "mongoose": "^4.0.1",
+    "q": "^1.2.0"
   }
 }

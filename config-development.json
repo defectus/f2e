@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "url": "mongodb://prod:prod@ds059471.mongolab.com:59471/heroku_app3537409",
+    "url": "mongodb://prod:prod@ds059471.mongolab.com:59471/heroku_app35374098",
     "username": "prod",
     "password": "prod"
   }
