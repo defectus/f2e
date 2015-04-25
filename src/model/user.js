@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-var requestSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
     _id: {type: String},
     username: String,
     gender: String,
@@ -12,5 +12,5 @@ var requestSchema = new mongoose.Schema({
     lastLogin: Date
 });
 
-module.exports = mongoose.model("Request", requestSchema);
+module.exports = mongoose.model("User", userSchema);
 
