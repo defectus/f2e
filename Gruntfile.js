@@ -111,6 +111,6 @@ module.exports = function (grunt) {
     grunt.registerTask('lite-build',
             ['clean:build', 'copy:client', 'copy:view', 'copy:node', 'jshint:client', 'jshint:node', 'uglify:client']);
     grunt.registerTask('test',
-            ['clean:build', 'copy:build', 'mochaTest:testClient', 'mochaTest:testNode']);
+            ['mochaTest:testClient', 'mochaTest:testNode']);
     grunt.registerTask('default', ['lite-build']);
 };
